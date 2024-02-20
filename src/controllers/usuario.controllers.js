@@ -61,7 +61,7 @@ export const listarusuarios = async (req, res) => {
     try {
         const [result] = await pool.query('SELECT * FROM usuario');
         res.status(200).json(result);
-    } catch(e) {
+    } catch(err) {
         res.status(500).json({ massage: 'Error en el servidor' + err.message });
     }
 };
