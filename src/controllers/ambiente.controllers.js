@@ -2,14 +2,14 @@ import { pool } from '../database/conexion.js';
 
 export const registrarAmbiente = async (req, res) => {
     try {
-        const { nombre } = req.body;
+        const { nombre, id_usuario, area_id_area} = req.body;
 
         const sql = `
-            INSERT INTO ambiente (nombre)
-            VALUES (?)
+            INSERT INTO ambiente (nombre, id_usuario, area_id_area)
+            VALUES (?,?,?)
         `;
 
-        const values = [nombre];
+        const values = [nombre, id_usuario, area_id_area];
 
         const [result] = await pool.query(sql, values);
 

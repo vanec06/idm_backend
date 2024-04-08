@@ -71,15 +71,15 @@ export const registrarMaquina = async (req, res) => {
         }
         console.log(archivos);
 
-        const { nombre, marca, placa, modelo, serial, descripcion, estado, id_usuario, id_area, id_ambiente, estado_maquina } = req.body;
+        const { nombre, marca, placa, modelo, serial, descripcion, estado, id_ambiente, estado_maquina } = req.body;
         let imagen = archivos[0];
         let manual = archivos[1];
 
 
-        const sql = `INSERT INTO maquina(nombre, marca, placa, modelo, manual, serial, imagen, descripcion, estado, id_usuario, id_area, id_ambiente, estado_maquina)
-        VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)`;
+        const sql = `INSERT INTO maquina(nombre, marca, placa, modelo, manual, serial, imagen, descripcion, estado, id_ambiente, estado_maquina)
+        VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)`;
 
-        const values = [nombre, marca, placa, modelo, manual, serial, imagen, descripcion, estado, id_usuario, id_area, id_ambiente, estado_maquina];
+        const values = [nombre, marca, placa, modelo, manual, serial, imagen, descripcion, estado, id_ambiente, estado_maquina];
 
         const [rows] = await pool.query(sql, values);
 
@@ -105,7 +105,8 @@ export const registrarMaquina = async (req, res) => {
 export const buscarMaquina = async (req, res) => {
     try {
         const id = req.params.id;
-        const [result] = await pool.query('SELECT  usuario.nombres AS nombre_usuario , area.nombre AS nombre_area, ambiente.nombre AS nombre_ambiente, maquina.nombre AS nombre_maquina , maquina.estado, maquina.estado_maquina,id_maquina,  marca, placa, modelo, manual, serial, imagen, descripcion FROM usuario INNER JOIN  maquina ON usuario.id_usuario = maquina.id_usuario INNER JOIN  area ON area.id_area = maquina.id_area INNER JOIN ambiente ON ambiente.id_ambiente = maquina.id_ambiente WHERE id_maquina = ?', [id]);
+        // const [result] = await pool.query('SELECT usuario.nombres AS nombre_usuario , area.nombre AS nombre_area, ambiente.nombre AS nombre_ambiente, maquina.nombre AS nombre_maquina , maquina.estado, maquina.estado_maquina,id_maquina,  marca, placa, modelo, manual, serial, imagen, descripcion FROM usuario INNER JOIN  maquina ON usuario.id_usuario = maquina.id_usuario INNER JOIN  area ON area.id_area = maquina.id_area INNER JOIN ambiente ON ambiente.id_ambiente = maquina.id_ambiente WHERE id_maquina = ?', [id]);
+        const [result] = await pool.query('SELECT area.nombre AS nombre_area, ambiente.nombre AS nombre_ambiente, maquina.nombre AS nombre_maquina , maquina.estado, maquina.estado_maquina,id_maquina,  marca, placa, modelo, manual, serial, imagen, descripcion FROM maquina INNER JOIN  area ON area.id_area = maquina.id_area INNER JOIN ambiente ON ambiente.id_ambiente = maquina.id_ambiente WHERE id_maquina = ?', [id]);
 
         if (result.length > 0) {
             res.status(200).json(result[0]);
@@ -127,7 +128,7 @@ export const buscarMaquina = async (req, res) => {
 
 export const listarMaquinas = async (req, res) => {
     try {
-        let sql = 'SELECT usuario.nombres AS nombre_usuario , area.nombre AS nombre_area, area.id_area, ambiente.nombre AS nombre_ambiente, ambiente.id_ambiente, maquina.nombre AS nombre_maquina, maquina.estado , maquina.estado_maquina ,id_maquina,  marca, placa, modelo, manual, serial, imagen, descripcion FROM usuario INNER JOIN  maquina ON usuario.id_usuario = maquina.id_usuario INNER JOIN  area ON area.id_area = maquina.id_area INNER JOIN ambiente ON ambiente.id_ambiente = maquina.id_ambiente '
+        let sql = 'SELECT area.nombre AS nombre_area, area.id_area, ambiente.nombre AS nombre_ambiente, ambiente.id_ambiente, maquina.nombre AS nombre_maquina, maquina.estado , maquina.estado_maquina ,id_maquina,  marca, placa, modelo, manual, serial, imagen, descripcion FROM maquina INNER JOIN  ambiente ON ambiente.id_ambiente = maquina.id_ambiente INNER JOIN area ON ambiente.area_id_area = area.id_area '
 
         if (req.body.limite == true) {
             sql += 'limit 5;'
@@ -207,17 +208,17 @@ export const actualizarMaquina = async (req, res) => {
 
 
         const id = req.params.id;
-        const { nombre, marca, placa, modelo, serial, descripcion, estado, id_usuario, id_area, id_ambiente, estado_maquina } = req.body;
+        const { nombre, marca, placa, modelo, serial, descripcion, estado, id_ambiente, estado_maquina } = req.body;
 
 
 
         const sql = `
             UPDATE maquina
-            SET nombre=?, marca=?, placa=?, modelo=?, manual=IFNULL(?, manual), serial=?, imagen=IFNULL(?, imagen), descripcion=?, estado=?, id_usuario=?, id_area=?, id_ambiente=?,estado_maquina=?
+            SET nombre=?, marca=?, placa=?, modelo=?, manual=IFNULL(?, manual), serial=?, imagen=IFNULL(?, imagen), descripcion=?, estado=?, id_ambiente=?,estado_maquina=?
             WHERE id_maquina = ?
         `;
 
-        const values = [nombre, marca, placa, modelo, manual, serial, imagen, descripcion, estado, id_usuario, id_area, id_ambiente, estado_maquina, id];
+        const values = [nombre, marca, placa, modelo, manual, serial, imagen, descripcion, estado, id_ambiente, estado_maquina, id];
 
         const [result] = await pool.query(sql, values);
 
