@@ -133,7 +133,7 @@ export const listarMaquinas = async (req, res) => {
         if (req.body.limite == true) {
             sql += 'limit 5;'
         } else if (req.body.area) {
-            sql += 'WHERE maquina.id_area = ' + req.body.area;
+            sql += 'WHERE area.id_area = ' + req.body.area;
         }
         // console.log(sql);
         const [result] = await pool.query(sql);
