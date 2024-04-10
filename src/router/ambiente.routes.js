@@ -5,7 +5,7 @@ import validationAmbiente from '../validation/validationAmbiente.js';
 
 const ambienteRouter = Router();
 
-ambienteRouter.get('/listar', listarAmbientes);
+ambienteRouter.post('/listar', listarAmbientes);
 ambienteRouter.post('/registrar', /* validarToken, */ validationAmbiente, registrarAmbiente);
 ambienteRouter.get('/buscar/:id', /* validarToken, */ buscarAmbientePorId);
 ambienteRouter.put('/actualizar/:id', /* validarToken, */ validationAmbiente, actualizarAmbiente);
