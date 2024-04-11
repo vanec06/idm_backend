@@ -60,7 +60,15 @@ export const buscarusuarios = async (req, res) => {
 
 export const listarusuarios = async (req, res) => {
     try {
-        const [result] = await pool.query('SELECT * FROM usuario');
+        const instru = req.params.instru;
+        let sql = 'SELECT * FROM usuario';
+
+        if (instru) {
+            sql += " WHERE rol = 3";
+        }
+        console.log(sql);
+        const [result] = await pool.query(sql);
+
         res.status(200).json(result);
     } catch (err) {
         res.status(500).json({ massage: 'Error en el servidor' + err.message });

@@ -7,7 +7,7 @@ const usuarioRouter = Router();
 
 usuarioRouter.post('/registrar', validateUsuario, registrarUsuario);
 usuarioRouter.get('/buscar/:identificacion', buscarusuarios);
-usuarioRouter.get('/listar', listarusuarios);
+usuarioRouter.get('/listar/:instru?', listarusuarios);
 usuarioRouter.put('/actualizar/:id',  /*validarToken,*/ validateUsuario, actualizarUsuario);
 usuarioRouter.delete('/eliminar/:id',/*  validarToken,  */eliminarUsuario);
 usuarioRouter.put('/cambiarestado/:identificacion', /* validarToken,  */cambiarEstadoUsuario);
