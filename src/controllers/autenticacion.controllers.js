@@ -21,7 +21,7 @@ export const validarUsuario = async (req, res) => {
         }
     } catch (e) {
         console.error('Error en el sistema:', e);
-        return { status: 500, message: 'Error en el sistema' };
+        return { status: 500, message: 'Error en el sistema' +e}; 
     }
 };
 
