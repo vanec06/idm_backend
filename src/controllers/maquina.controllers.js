@@ -126,30 +126,50 @@ export const buscarMaquina = async (req, res) => {
 };
 
 
+let condiciones = [];
 export const listarMaquinas = async (req, res) => {
     try {
         let sql = 'SELECT area.nombre AS nombre_area, area.id_area, ambiente.nombre AS nombre_ambiente, ambiente.id_ambiente, maquina.nombre AS nombre_maquina, maquina.estado , maquina.estado_maquina ,id_maquina,  marca, placa, modelo, manual, serial, imagen, descripcion FROM maquina INNER JOIN  ambiente ON ambiente.id_ambiente = maquina.id_ambiente INNER JOIN area ON ambiente.area_id_area = area.id_area '
 
         if (req.body.limite == true) {
             sql += 'limit 50;'
+            condiciones = []
         }/*  else if (req.body.area) {
             sql += 'WHERE area.id_area = ' + req.body.area;
         } */ else {
-            let condiciones = [];
 
             if (req.body.area) {
-                condiciones.push('area.id_area =  ' + req.body.area);
+                const posicion = condiciones.findIndex(condicion => condicion.includes('area.id_area ='))
+                if (posicion != -1) {
+                    condiciones.splice(posicion, 1);
+                }
+                if (req.body.area != 'null') {
+                    condiciones.push('area.id_area =  ' + req.body.area);
+                }
             }
             if (req.body.ambiente) {
-                condiciones.push('ambiente.id_ambiente = ' + req.body.ambiente);
+                const posicion = condiciones.findIndex(condicion => condicion.includes('ambiente.id_ambiente = '))
+                if (posicion != -1) {
+                    condiciones.splice(posicion, 1);
+                }
+                if (req.body.ambiente != 'null') {
+                    condiciones.push('ambiente.id_ambiente = ' + req.body.ambiente);
+                }
             }
-            if (req.body.buscar && req.body.buscar != '') {
-                condiciones.push('maquina.nombre LIKE "%' + req.body.buscar + '%"');
+            if (req.body.buscar) {
+                const posicion = condiciones.findIndex(condicion => condicion.includes('maquina.nombre LIKE '))
+                if (posicion != -1) {
+                    condiciones.splice(posicion, 1);
+                }
+                if (req.body.buscar != 'null') {
+                    condiciones.push('maquina.nombre LIKE "%' + req.body.buscar + '%"');
+                }
             }
 
             if (condiciones.length > 0) {
                 sql += 'WHERE ' + condiciones.join(' AND ');
             }
+            console.log(sql);
         }
 
         const [result] = await pool.query(sql);
