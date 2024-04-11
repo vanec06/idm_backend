@@ -169,7 +169,7 @@ export const listarMaquinas = async (req, res) => {
             if (condiciones.length > 0) {
                 sql += 'WHERE ' + condiciones.join(' AND ');
             }
-            console.log(sql);
+            // console.log(sql);
         }
 
         const [result] = await pool.query(sql);

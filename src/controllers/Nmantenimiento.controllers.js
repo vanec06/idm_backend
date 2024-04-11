@@ -39,7 +39,7 @@ export const listarNotificacion = async (req, res) => {
   try {
 
     const filtro = req.body.filtro;
-    let sql = 'SELECT id_notificacion,maquina.nombre AS nombre_maquina, fecha, notificacion_mantenimiento.estado,tipo_mantenimiento, comentarios FROM notificacion_mantenimiento INNER JOIN maquina ON maquina.id_maquina = notificacion_mantenimiento.id_maquina ';
+    let sql = 'SELECT id_notificacion,notificacion_mantenimiento.id_maquina,maquina.nombre AS nombre_maquina, fecha, notificacion_mantenimiento.estado,tipo_mantenimiento, comentarios FROM notificacion_mantenimiento INNER JOIN maquina ON maquina.id_maquina = notificacion_mantenimiento.id_maquina ';
 
     // console.log(filtro);
 
