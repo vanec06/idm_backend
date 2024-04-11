@@ -26,7 +26,7 @@ app.use(bodyParser.urlencoded({ limit: '50mb', extended: true }));
 
 app.use(cookieParser());
 app.use(cors({
-    origin: 'http://' + process.env.DB_HOST + ':5173', //
+    origin: 'http://' + process.env.IP_HOST + ':5173', //
     credentials: true,
 }));
 
