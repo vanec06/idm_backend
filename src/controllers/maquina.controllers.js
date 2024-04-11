@@ -134,6 +134,9 @@ export const listarMaquinas = async (req, res) => {
         if (req.body.limite == true) {
             sql += 'limit 50;'
             condiciones = []
+        }else if (req.body.limiteMain == true) {
+            sql += 'limit 3;'
+            condiciones = []
         }/*  else if (req.body.area) {
             sql += 'WHERE area.id_area = ' + req.body.area;
         } */ else {
