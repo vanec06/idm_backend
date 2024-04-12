@@ -12,6 +12,14 @@ export const registrarUsuario = async (req, res) => {
         const { identificacion, nombres, apellidos, telefono, correo, estado, rol } = req.body;
         const contraseña = identificacion;
 
+        const [existingUser] = await pool.query(`SELECT * FROM usuario WHERE identificacion = ?`, [identificacion]);
+        if (existingUser.length > 0) {
+            return res.status(400).json({
+                'status': "existente",
+                'message': 'Ya existe un usuario con la misma identificación',
+            });
+        }
+
         const sql = `INSERT INTO usuario(identificacion, nombres, apellidos, telefono, correo, estado, contraseña, rol) 
                      VALUES (?, ?, ?, ?, ?, ?, ?, ?)`;
         const values = [identificacion, nombres, apellidos, telefono, correo, estado, contraseña, rol];
