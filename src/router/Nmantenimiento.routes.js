@@ -7,7 +7,7 @@ const Nman = Router();
 
 Nman.post('/registrar',validatorNotifi, registrarNotificacion);
 Nman.post('/listar', listarNotificacion);
-Nman.put('/actualizar/:id', actualizarNotificacion);
+Nman.put('/actualizar/:id',validatorNotifi, actualizarNotificacion);
 Nman.get('/buscar/:id', buscarNotificacion);
 Nman.delete('/eliminar/:id', eliminarNotificacion);
 Nman.put('/estado/:id', cambiarEstado);
