@@ -6,7 +6,7 @@ export const validatorMante = [
     check('descripcion', 'La descripción es requerida').notEmpty(),
     check('descripcion', 'Longitd maxima de 50 carcateres').isLength({ max: 50 }).notEmpty(),
     check('tipo_mantenimiento', 'seleccione').isIn(['preventivo', 'correctivo','calibracion']),
-    check('id_maquina', 'ID, maquina ').isLength({ max: 10 }).notEmpty().isNumeric().withMessage(' numérico'),
-    check('id_usuario', 'ID, usuario ').isLength({ max: 50 }).notEmpty().isNumeric().withMessage(' numerico'),
+    check('id_maquina', 'Seleccione una maquina ').isLength({ max: 10 }).notEmpty().isNumeric().withMessage(' '),
+    check('id_usuario', 'seleccione un usuario ').isLength({ max: 50 }).notEmpty().isNumeric().withMessage(' '),
 ];
 
