@@ -4,14 +4,18 @@ import { cargarArchivo } from '../helpers/cargarArchivos.js';
 
 export const registrarMantenimiento = async (req, res) => {
   try {
-    // console.log(req.body.evidencia)
     let error1 = validationResult(req);
     if (!error1.isEmpty()) {
       return res.status(400).json(error1);
     }
 
-    const cargar = await cargarArchivo([req.body.evidencia], 'evidencia')
-    const evidencia = cargar[0];
+    let evidencia = null; // Establecer evidencia como null por defecto
+
+    // Verificar si se proporcionó evidencia en la solicitud
+    if (req.body.evidencia) {
+      const cargar = await cargarArchivo([req.body.evidencia], 'evidencia');
+      evidencia = cargar[0];
+    }
 
     const { fecha_mantenimiento, hora_mantenimiento, descripcion, tipo_mantenimiento, id_maquina, id_usuario } = req.body;
 

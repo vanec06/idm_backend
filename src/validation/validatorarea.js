@@ -1,13 +1,10 @@
 import { check, validationResult } from 'express-validator';
 
 const validacionArea = [
-    check('nombre').exists().withMessage('El nombre area es requerido')
-        .not().isEmpty().withMessage('El nombre  area no puede estar vacío')
+    check('nombre').exists().withMessage('El nombre de área es requerido')
+        .not().isEmpty().withMessage('El nombre de área no puede estar vacío')
         .isLength({ min: 2, max: 50 }).withMessage('El nombre debe tener entre 2 y 50 caracteres')
-        .matches(/^[a-zA-Z\s]*$/).withMessage('El nombre solo puede contener letras y espacios')
-        .trim().withMessage('No se permiten espacios al inicio o al final')
-        .escape().withMessage('No se permiten caracteres especiales')
-        .whitelist('a-zA-Z\s').withMessage('El nombre solo puede contener letras y espacios')
+        .matches(/^[a-zA-ZáéíóúÁÉÍÓÚ\s]*$/).withMessage('El nombre solo puede contener letras, espacios y tildes')
         .customSanitizer(value => {
             return value.replace(/<script\b[^<]*(?:(?!<\/script>)<[^<]*)*<\/script>/gi, '');
         }).withMessage('No se permiten caracteres especiales'),
@@ -23,3 +20,4 @@ const validacionArea = [
 
 
 export default validacionArea;
+
